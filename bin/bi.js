@@ -18,7 +18,7 @@ program.version('1.0.0', '-v, --version')
       return
     }
     console.log(symbols.success, chalk.yellow('项目初始化开始...'))
-    download('github:Wheat-milk/bi-cli', './', function (err) {
+    download('github:Wheat-milk/bi-cli#template', './', function (err) {
       console.log(err ? 'Error' : 'Success')
       // const fileName = `${name}/package.json`;
       // console.log(fs.readFileSync(templatePath).toString())
