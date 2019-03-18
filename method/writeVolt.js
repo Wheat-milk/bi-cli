@@ -1,3 +1,0 @@
-const writeVolt = (config, voltName) => {
-
-}
