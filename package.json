@@ -1,19 +1,29 @@
 {
-  "name": "bi-cli",
-  "version": "1.0.0",
+  "name": "bi-template",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "bi-template": "./bin/bi.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Wheat-milk/bi-cli.git"
   },
   "author": "wheatMilk",
-  "license": "ISC",
+  "license": "GPL",
   "bugs": {
     "url": "https://github.com/Wheat-milk/bi-cli/issues"
   },
-  "homepage": "https://github.com/Wheat-milk/bi-cli#readme"
+  "homepage": "https://github.com/Wheat-milk/bi-cli#readme",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.19.0",
+    "download-git-repo": "^1.1.0",
+    "inquirer": "^6.2.2",
+    "ora": "^3.2.0"
+  }
 }
