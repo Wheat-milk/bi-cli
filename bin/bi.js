@@ -22,20 +22,11 @@ program.version('1.0.0', '-v, --version')
       console.log(err ? 'Error' : 'Success')
       // const fileName = `${name}/package.json`;
       // console.log(fs.readFileSync(templatePath).toString())
-    })
-    inquirer.prompt([{
-      type: 'input',
-      name: 'author',
-      message: '请输入作者名称'
-    }]).then((answers) => {
       const spinner = ora('正在开始创建...')
       spinner.start()
 
       console.log(symbols.success, chalk.green('项目创建成功'))
       console.log(chalk.green('项目名:'), fileName)
-      console.log(chalk.green('作者:'), answers.author)
-
-
 
       fs.readFile(configPath, 'utf8', function (err, data) {
         if (err) console.log(err)
@@ -50,6 +41,14 @@ program.version('1.0.0', '-v, --version')
       });
       spinner.succeed()
     })
+
+    // inquirer.prompt([{
+    //   type: 'input',
+    //   name: 'author',
+    //   message: '请输入作者名称'
+    // }]).then((answers) => {
+
+    // })
   })
 
 program.parse(process.argv)
