@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 
-console.log('BI-cli')
 const fs = require('fs')
 const ora = require('ora')
 const program = require('commander')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
+const handlebars = require('handlebars')
 const symbols = require('log-symbols')
 const download = require('download-git-repo')
 const templatePath = 'template/template.volt'
-console.log(templatePath)
-program.version('1.0.0', '-v, --version')
+program
+  .version('1.0.0', '-v, --version')
   .command('init <fileName> [configPath]')
   .action((fileName, configPath) => {
     if (fs.existsSync(fileName)) {
@@ -18,28 +18,30 @@ program.version('1.0.0', '-v, --version')
       return
     }
     console.log(symbols.success, chalk.yellow('项目初始化开始...'))
-    download('github:Wheat-milk/bi-cli#template', './', function (err) {
-      console.log(err ? 'Error' : 'Success')
+    const spinner = ora('开始创建...')
+    spinner.start()
+    download('github:wozhangwan/bi-template', './', function(err) {
+      // console.log(err ? 'Error' : 'Success')
       // const fileName = `${name}/package.json`;
       // console.log(fs.readFileSync(templatePath).toString())
-      const spinner = ora('正在开始创建...')
-      spinner.start()
+      const content = fs.readFileSync('template.volt').toString()
+      const configData = JSON.parse(fs.readFileSync(configPath).toString())
+      handlebars.registerHelper('volt', function(context, options) {
+        return new handlebars.SafeString('{{ ' + context + '}}')
+      })
 
-      console.log(symbols.success, chalk.green('项目创建成功'))
-      console.log(chalk.green('项目名:'), fileName)
+      const result = handlebars.compile(content)(configData)
 
-      fs.readFile(configPath, 'utf8', function (err, data) {
-        if (err) console.log(err)
-        const configData = JSON.parse(data)
-        console.log(configData)
-        // const template = fs.readFileSync(templatePath).toString()
-        // console.log(template)
-        // fs.writeFileSync(fileName, `作者:${answers.author}  内容:${JSON.stringify(configData)}`)
-        // test1.name="li"
-        // var t = JSON.stringify(test1)
-        // fs.writeFileSync('test1.json',t)
-      });
+      fs.writeFileSync(fileName, result)
+      // const template = fs.readFileSync(templatePath).toString()
+      // console.log(template)
+      // fs.writeFileSync(fileName, `作者:${answers.author}  内容:${JSON.stringify(configData)}`)
+      // test1.name="li"
+      // var t = JSON.stringify(test1)
+      // fs.writeFileSync('test1.json',t)
       spinner.succeed()
+      console.log(chalk.green('项目名:'), fileName)
+      console.log(symbols.success, chalk.green('项目创建成功'))
     })
 
     // inquirer.prompt([{
